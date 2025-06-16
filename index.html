@@ -21,43 +21,52 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      overflow: hidden;
       position: relative;
       user-select: none;
+      overflow-y: auto; /* ✅ ให้เลื่อนได้บนมือถือ */
     }
+
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     .content {
       background: rgba(255, 182, 193, 0.15);
       backdrop-filter: blur(14px);
       border: 2px dashed #ff69b4;
       border-radius: 30px;
-      padding: 45px 30px;
+      padding: 45px 30px 60px;
       box-shadow: 0 0 35px #ff66cc;
-      max-width: 90%;
+      max-width: 95%;
+      width: 100%;
       z-index: 10;
       animation: fadeIn 2s ease-out;
       position: relative;
+      max-height: 95vh;
+      overflow-y: auto;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     h1 {
       color: #ff99cc;
       font-size: 3rem;
       margin-bottom: 1.5rem;
       text-shadow: 2px 2px #00000055;
     }
+
     p {
       color: #ffe6f2;
       font-size: 1.3rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       line-height: 1.8;
     }
+
     .puzzle {
       font-weight: bold;
       color: #ffb6c1;
@@ -66,6 +75,7 @@
       letter-spacing: 3px;
       cursor: help;
     }
+
     input[type="text"] {
       padding: 12px 20px;
       border: 2px solid #ff69b4;
@@ -73,32 +83,39 @@
       background-color: #1a001f;
       color: white;
       font-size: 1.1rem;
-      width: 220px;
+      width: 80%;
+      max-width: 280px;
       margin-bottom: 10px;
       outline: none;
       transition: border-color 0.3s;
     }
+
     input[type="text"]:focus {
       border-color: #ff1493;
     }
+
     input::placeholder {
       color: #ffcce6;
     }
+
     button {
-      padding: 12px 24px;
+      padding: 12px 20px;
       border: none;
       border-radius: 25px;
       background-color: #ff69b4;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       transition: background-color 0.3s;
-      margin: 0 10px;
+      margin: 10px 5px;
+      width: 45%;
+      max-width: 150px;
     }
+
     button:hover {
       background-color: #ff1493;
-      cursor: url('data:image/svg+xml;utf8,<svg fill="pink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 29.6"><path d="M23.6 0c-2.4 0-4.7 1.2-6 3.3-1.3-2.1-3.6-3.3-6-3.3C5.3 0 0 5.3 0 11.8 0 20.3 16 29.6 16 29.6S32 20.3 32 11.8C32 5.3 26.7 0 23.6 0z"/></svg>') 16 16, pointer;
     }
+
     .hint {
       color: #ffccf9;
       font-size: 1rem;
@@ -106,124 +123,7 @@
       font-style: italic;
       user-select: text;
     }
-    .heart {
-      position: absolute;
-      background: hotpink;
-      transform: rotate(-45deg);
-      animation: float 8s infinite ease-in;
-      opacity: 0.6;
-      z-index: 1;
-      border-radius: 4px;
-    }
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      background: hotpink;
-      border-radius: 50%;
-    }
-    .heart::before {
-      top: -10px;
-      left: 0;
-      width: 20px;
-      height: 20px;
-    }
-    .heart::after {
-      top: 0;
-      left: 10px;
-      width: 20px;
-      height: 20px;
-    }
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(-45deg);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) rotate(-45deg);
-        opacity: 0;
-      }
-    }
-    #correctEffect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      color: #ffccf9;
-      text-shadow: 2px 2px 6px #ff69b4;
-      font-weight: bold;
-      z-index: 999;
-      animation: popUp 1.2s ease-out, sparkle 1.2s ease-in-out infinite;
-      user-select: none;
-    }
-    @keyframes popUp {
-      0% {
-        transform: translate(-50%, -50%) scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0;
-      }
-    }
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
-    }
-    /* ดอกไม้ลอย */
-    .flower {
-      position: fixed;
-      width: 25px;
-      height: 25px;
-      background: radial-gradient(circle at center, #ff99cc, #ff66cc);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      filter: drop-shadow(0 0 3px #ff69b4);
-      animation: floatFlower 5s linear forwards;
-      opacity: 0.9;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    @keyframes floatFlower {
-      0% {
-        transform: translateY(0) scale(0.7);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-150px) scale(1);
-        opacity: 0;
-      }
-    }
-    /* เมฆชมพูลอย */
-    .cloud {
-      position: fixed;
-      background: rgba(255, 182, 193, 0.3);
-      border-radius: 50% / 60%;
-      filter: drop-shadow(0 0 3px #ffb6c1);
-      opacity: 0.6;
-      animation: floatCloud linear forwards;
-      pointer-events: none;
-      z-index: 0;
-    }
-    @keyframes floatCloud {
-      0% {
-        transform: translateX(-200px) scale(0.8);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateX(120vw) scale(1);
-        opacity: 0;
-      }
-    }
-    /* ปุ่มคำใบ้ */
+
     #hintBox {
       background: rgba(255, 182, 193, 0.25);
       border-radius: 15px;
@@ -237,15 +137,47 @@
       box-shadow: 0 0 15px #ff99cc;
       user-select: text;
     }
+
+    #correctEffect {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      color: #ffccf9;
+      text-shadow: 2px 2px 6px #ff69b4;
+      font-weight: bold;
+      z-index: 999;
+      animation: popUp 1.2s ease-out, sparkle 1.2s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes popUp {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+    }
+
+    /* Responsive */
     @media screen and (max-width: 500px) {
       h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
       }
       p, .puzzle {
-        font-size: 1.1rem;
+        font-size: 1rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
       }
       input[type="text"] {
-        width: 160px;
+        width: 90%;
       }
     }
   </style>
@@ -264,100 +196,40 @@
     <p>แต่ตอนนี้มี <strong>ปริศนา</strong> นิดหน่อยสำหรับเธอ </p>
     <p class="puzzle" title="ลองแปลรหัสนี้ดู">01 02 03 04 05 06 07 08 09 10 11 12</p>
 
-    <input type="text" id="answer" placeholder="พิมพ์คำตอบที่นี่... เช่น 07/06/2025" />
+    <input type="text" id="answer" placeholder="พิมพ์คำตอบ เช่น 07/06/2025" />
     <br />
     <button onclick="checkAnswer()">ส่งคำตอบ</button>
     <button id="showHintBtn">ดูคำใบ้</button>
 
-    <div id="hintBox">คำใบ้:คือวันพิเศษทำหรับเราทั่งคู่และเป็นวันที่เราได้มีความสุข</div>
+    <div id="hintBox">คำใบ้: คือวันพิเศษสำหรับเราทั้งคู่ และเป็นวันที่เราได้มีความสุข</div>
   </div>
 
-  <!-- เอฟเฟกต์ตอบถูก -->
-  <div id="correctEffect">เก่งมากที่รัก </div>
+  <div id="correctEffect">เก่งมากที่รัก</div>
 
   <audio id="successSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_47e23d9baf.mp3?filename=positive-notification-6083.mp3" preload="auto"></audio>
 
   <script>
-    // สร้างหัวใจลอย 30 ดวง ขนาดและความเร็วต่างกัน
-    for (let i = 0; i < 30; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (4 + Math.random() * 6) + "s";
-      heart.style.opacity = (Math.random() * 0.5 + 0.3).toFixed(2);
-      let size = 10 + Math.random() * 20;
-      heart.style.width = size + "px";
-      heart.style.height = size + "px";
-      heart.style.top = Math.random() * 100 + "vh";
-      document.body.appendChild(heart);
-    }
-
-    // สร้างเมฆชมพูลอยผ่านจอ ทุก 5 วิ
-    function createCloud() {
-      const cloud = document.createElement("div");
-      cloud.className = "cloud";
-      cloud.style.width = (60 + Math.random() * 40) + "px";
-      cloud.style.height = (30 + Math.random() * 20) + "px";
-      cloud.style.top = (Math.random() * window.innerHeight * 0.7) + "px";
-      cloud.style.left = "-200px";
-      cloud.style.animationDuration = (30 + Math.random() * 20) + "s";
-      document.body.appendChild(cloud);
-      setTimeout(() => cloud.remove(), 35000);
-    }
-    setInterval(createCloud, 5000);
-    createCloud(); // เริ่มทันที
-
-    // สร้างดอกไม้ลอย
-    function createFlower() {
-      const flower = document.createElement("div");
-      flower.className = "flower";
-      flower.style.left = (Math.random() * window.innerWidth) + "px";
-      flower.style.top = (window.innerHeight) + "px";
-      document.body.appendChild(flower);
-      setTimeout(() => flower.remove(), 5000);
-    }
-
-    // เช็คคำตอบปริศนา
     function checkAnswer() {
       const val = document.getElementById("answer").value.trim();
       const correct = "07/06/2025";
-
       if (val === correct) {
         const effect = document.getElementById("correctEffect");
         effect.style.display = "block";
-
-        // เล่นเสียงตอบถูก
         const sound = document.getElementById("successSound");
         sound.currentTime = 0;
         sound.play();
-
-        // ปล่อยดอกไม้ลอย 15 ดอก
-        for(let i = 0; i < 15; i++) {
-          setTimeout(createFlower, i * 200);
-        }
-
-        // ลบคำใบ้ด้วย (ถ้ามีแสดง)
-        document.getElementById("hintBox").style.display = "none";
-
-        // ปิดข้อความถูกหลัง 1.2 วินาที (animation)
         setTimeout(() => {
           effect.style.display = "none";
-          // เปลี่ยนหน้า
           window.location.href = "gallery.html";
         }, 2500);
       } else {
-        alert("ยังไม่ถูกนะ ลองแก้ใหม่ดูนะ ");
+        alert("ยังไม่ถูกนะ ลองใหม่น้า");
       }
     }
 
-    // ปุ่มดูคำใบ้ กดแล้วโชว์/ซ่อนคำใบ้
     document.getElementById("showHintBtn").addEventListener("click", () => {
       const hint = document.getElementById("hintBox");
-      if (hint.style.display === "block") {
-        hint.style.display = "none";
-      } else {
-        hint.style.display = "block";
-      }
+      hint.style.display = hint.style.display === "block" ? "none" : "block";
     });
   </script>
 
