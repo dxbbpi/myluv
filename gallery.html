@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>คลังความรักของเรา</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Sriracha', cursive;
+      background: linear-gradient(135deg, #1b001e, #320038, #55004d, #1b001e);
+      background-size: 400% 400%;
+      animation: bgFlow 20s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 100px;
+      color: #ffd6f0;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    @keyframes bgFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #ff9ddf;
+      margin-bottom: 35px;
+      text-shadow: 3px 3px 7px #660046cc;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    /* หัวใจลอยเล็ก ๆ */
+    .floating-heart {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #ff6ab2;
+      transform: rotate(-45deg);
+      opacity: 0.7;
+      animation: floatHeart linear infinite;
+      border-radius: 0 50% 50% 50%;
+      filter: drop-shadow(0 0 2px #ff6ab2);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .floating-heart::before,
+    .floating-heart::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #ff6ab2;
+      border-radius: 50%;
+    }
+    .floating-heart::before {
+      top: -7.5px;
+      left: 0;
+    }
+    .floating-heart::after {
+      top: 0;
+      left: 7.5px;
+    }
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) rotate(-45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 50px;
+    }
+
+    .card {
+      background-color: #2d003a;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #ff6ab2aa;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .card:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px #ff6ab2ff;
+      border-color: #ff6ab2;
+      z-index: 2;
+    }
+    .card img {
+      width: 100%;
+      display: block;
+      border-bottom: 2px solid #ff6ab2;
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .puzzle {
+      padding: 15px 20px;
+      background-color: #440046dd;
+      border-radius: 0 0 22px 22px;
+      color: #ffd6f0;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    .puzzle input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Sriracha', cursive;
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: 600;
+      min-height: 22px;
+      user-select: none;
+    }
+
+    .message {
+      display: none;
+      padding: 15px 20px;
+      color: #ffd6f0;
+      font-size: 1.2rem;
+      background-color: #440046dd;
+      border-top: 1px solid #ff6ab2;
+      line-height: 1.5;
+      text-shadow: 1px 1px 2px #6b0051;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      border-radius: 0 0 22px 22px;
+      user-select: text;
+    }
+
+    /* ปุ่มหัวใจ */
+    .love-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #ff6ab2;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      box-shadow: 0 0 15px #ff6ab2aa;
+      cursor: pointer;
+      font-size: 30px;
+      color: white;
+      transition: transform 0.3s ease;
+      z-index: 100;
+      user-select: none;
+    }
+    .love-btn:active {
+      transform: scale(0.9);
+    }
+
+    /* กลิตเตอร์ */
+    .glitter {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 40%, transparent 70%);
+      animation: glitterMove 1s ease forwards;
+      pointer-events: none;
+      filter: drop-shadow(0 0 6px #fff);
+      z-index: 999;
+    }
+    @keyframes glitterMove {
+      0% { opacity: 1; transform: scale(0.6) translate(0,0); }
+      100% { opacity: 0; transform: scale(1.5) translate(-20px, -20px); }
+    }
+
+    /* เกมคำถามรัก */
+    #quiz-container {
+      background-color: #2d003a;
+      max-width: 400px;
+      margin: 0 auto 50px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #ff6ab2cc;
+      padding: 20px;
+      color: #ffd6f0;
+      font-weight: 600;
+      user-select: none;
+      text-align: center;
+    }
+    #quiz-question {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+    #quiz-input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1.1rem;
+      font-family: 'Sriracha', cursive;
+      outline: none;
+      width: 100%;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    #quiz-feedback {
+      min-height: 22px;
+      margin-bottom: 10px;
+      color: #ff6ab2;
+      font-weight: 600;
+    }
+    #quiz-submit {
+      background: #ff6ab2;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-family: 'Sriracha', cursive;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    #quiz-submit:hover {
+      background-color: #ff3d9e;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .puzzle, .message {
+        font-size: 1rem;
+      }
+      #quiz-container {
+        max-width: 90vw;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>Luv mak mak</h1>
+  <div class="gallery">
+    <div class="card" onclick="openPuzzle(this)">
+      <img src="https://img5.pic.in.th/file/secure-sv1/506029511_4130890230530001_2097986273746238829_n.png" alt="รักครั้งแรก" />
+      <div class="puzzle" style="display:none;">
+        <p>ถอดรหัสนี้ให้ได้: <br><b>ข-1 อ-2 เ-3</b><br>แล้วพิมพ์คำตอบที่นี่:</p>
+        <input type="text" placeholder="พิมพ์คำตอบ..." onkeydown="if(event.key==='Enter'){checkAnswer(this, 'รักเธอมาก');}" />
+        <p class="feedback"></p>
+      </div>
+      <div class="message">
+        วันที่เค้าตัดสินใจเริ่มรักเธอ เค้าไม่เคยคิดเลยว่าการเลือกครั้งนี้จะเปลี่ยนชีวิตเค้าได้มากขนาดนี้ ขอบคุณที่เข้ามาเติมเต็มสีสันและความหมายให้กับทุกวันของเค้า
+      </div>
+    </div>
+
+    <div class="card" onclick="openPuzzle(this)">
+      <img src="https://img2.pic.in.th/pic/500473731_1065139108884876_6502962080068416820_n.jpg" alt="วันครบรอบ" />
+      <div class="puzzle" style="display:none;">
+        <p>เติมคำในช่องว่างให้สมบูรณ์:<br>"เค้ารักแฟนมากนะ รักมากขึ้นทุก____"</p>
+        <input type="text" placeholder="พิมพ์คำตอบ..." onkeydown="if(event.key==='Enter'){checkAnswer(this, 'วัน');}" />
+        <p class="feedback"></p>
+      </div>
+      <div class="message">
+        เค้ารักแฟนมากนะ รักมากขึ้นทุกวันจริงๆ ขอบคุณที่อยู่ข้างกันในวันที่เค้าทั้งดีและแย่ ร่วมกันสร้างความทรงจำดีๆ ที่ไม่มีวันลืม
+      </div>
+    </div>
+
+    <div class="card" onclick="openPuzzle(this)">
+      <img src="https://img5.pic.in.th/file/secure-sv1/68603b49-6ecd-49da-b62b-d92b6faf6146.jpeg" alt="คืนดูดาว" />
+      <div class="puzzle" style="display:none;">
+        <p>ปริศนา: <br>เติมคำให้ครบ "เค้ารักเธอมากจริงๆ คิดถูกที่สุดที่เลือก____เข้ามาในชีวิต"</p>
+        <input type="text" placeholder="พิมพ์คำตอบ..." onkeydown="if(event.key==='Enter'){checkAnswer(this, 'เธอ');}" />
+        <p class="feedback"></p>
+      </div>
+      <div class="message">
+        เค้ารักเธอมากจริงๆ คิดถูกที่สุดที่เลือกเธอเข้ามาในชีวิต ขอบคุณที่ทำให้ทุกวันมีแต่สีสันและความสุข
+      </div>
+    </div>
+  </div>
+
+  <!-- ปุ่มหัวใจกดได้ -->
+  <button class="love-btn" title="กดรักเค้า!">💖</button>
+
+  <!-- เกมถามคำถามรัก -->
+  <div id="quiz-container">
+    <div id="quiz-question">คำถาม: รักของเรามีค่าแค่ไหน?</div>
+    <input type="text" id="quiz-input" placeholder="พิมพ์คำตอบของคุณ..." />
+    <div id="quiz-feedback"></div>
+    <button id="quiz-submit">ส่งคำตอบ</button>
+  </div>
+<button id="go-to-love-message" style="
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #ff4da6, #cc0066);
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(204, 0, 102, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+  ไปหน้าถัดไป
+</button>
+<script>
+  // สร้างหัวใจลอยๆ แบบเดิม
+  for(let i=0; i<30; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (5 + Math.random() * 10) + 's';
+    heart.style.animationDelay = (Math.random() * 20) + 's';
+    heart.style.opacity = 0.4 + Math.random() * 0.6;
+    heart.style.top = (Math.random() * 100) + 'vh';
+    document.body.appendChild(heart);
+  }
+
+  function openPuzzle(card) {
+    const puzzle = card.querySelector('.puzzle');
+    const message = card.querySelector('.message');
+    if (puzzle.style.display === 'block') {
+      puzzle.style.display = 'none';
+      message.style.display = 'none';
+    } else {
+      puzzle.style.display = 'block';
+      message.style.display = 'none';
+
+      const input = puzzle.querySelector('input');
+      const feedback = puzzle.querySelector('.feedback');
+      input.value = '';
+      feedback.textContent = '';
+    }
+  }
+
+  function checkAnswer(inputElem, correctAnswer) {
+    const userAnswer = inputElem.value.trim();
+    const feedback = inputElem.nextElementSibling;
+    if (userAnswer === '') {
+      feedback.textContent = 'กรุณาพิมพ์คำตอบก่อนนะ ';
+      feedback.style.color = '#ff6ab2';
+      return;
+    }
+    if (userAnswer === correctAnswer) {
+      feedback.textContent = 'ถูกต้องแล้ว! 💖 เปิดข้อความความรักให้ดูนะ';
+      feedback.style.color = '#aaffaa';
+
+      const card = inputElem.closest('.card');
+      card.querySelector('.message').style.display = 'block';
+      card.querySelector('.puzzle').style.display = 'none';
+
+      createBurstHearts(card);
+    } else {
+      feedback.textContent = 'ยังไม่ถูกนะ ลองใหม่อีกครั้ง';
+      feedback.style.color = '#ff7777';
+    }
+  }
+
+  function createBurstHearts(card) {
+    for(let i=0; i<15; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.style.position = 'absolute';
+      heart.style.left = (Math.random() * 80 + 10) + '%';
+      heart.style.top = (Math.random() * 80 + 10) + '%';
+      heart.style.width = '20px';
+      heart.style.height = '20px';
+      heart.style.animationDuration = (1 + Math.random() * 1) + 's';
+      heart.style.opacity = 1;
+      card.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
+  }
+
+  // กดปุ่มหัวใจ เพิ่มเอฟเฟกต์หัวใจพุ่งขึ้น
+  const loveBtn = document.querySelector('.love-btn');
+  loveBtn.addEventListener('click', () => {
+    for(let i=0; i<20; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.style.position = 'fixed';
+      heart.style.left = (loveBtn.getBoundingClientRect().left + loveBtn.offsetWidth/2 - 10 + (Math.random()*40 - 20)) + 'px';
+      heart.style.top = (loveBtn.getBoundingClientRect().top + loveBtn.offsetHeight/2 - 10) + 'px';
+      heart.style.width = '18px';
+      heart.style.height = '18px';
+      heart.style.animationDuration = (1 + Math.random() * 1) + 's';
+      heart.style.opacity = 1;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
+    // สร้างกลิตเตอร์ที่ปุ่ม
+    createGlitter(loveBtn);
+  });
+
+  function createGlitter(elem) {
+    for(let i=0; i<12; i++) {
+      const glitter = document.createElement('div');
+      glitter.classList.add('glitter');
+      glitter.style.width = glitter.style.height = (5 + Math.random()*7) + 'px';
+      glitter.style.left = (Math.random() * elem.offsetWidth) + 'px';
+      glitter.style.top = (Math.random() * elem.offsetHeight) + 'px';
+      elem.appendChild(glitter);
+      setTimeout(() => glitter.remove(), 1000);
+    }
+  }
+
+  // เกมถามคำถามรัก (สุ่มคำถาม)
+  const quizQuestions = [
+    { q: "รักของเรามีค่าแค่ไหน?", a: "มากที่สุด" },
+    { q: "สิ่งที่เค้าชอบที่สุดในตัวแฟนคืออะไร?", a: "ความใจดี" },
+    { q: "คำพูดหวานๆ ที่เค้าชอบบอกแฟนคืออะไร?", a: "รักเธอเสมอ" },
+    { q: "แฟนชอบสีอะไร?", a: "ชมพู" },
+    { q: "ถ้าให้เลือกวันพิเศษ เค้าจะเลือกวันไหน?", a: "วันครบรอบ" }
+  ];
+
+  const quizQuestionElem = document.getElementById('quiz-question');
+  const quizInputElem = document.getElementById('quiz-input');
+  const quizFeedbackElem = document.getElementById('quiz-feedback');
+  const quizSubmitBtn = document.getElementById('quiz-submit');
+
+  let currentQuizIndex = Math.floor(Math.random() * quizQuestions.length);
+
+  function loadQuizQuestion(index) {
+    quizQuestionElem.textContent = `คำถาม: ${quizQuestions[index].q}`;
+    quizInputElem.value = '';
+    quizFeedbackElem.textContent = '';
+  }
+
+  quizSubmitBtn.addEventListener('click', () => {
+    const answer = quizInputElem.value.trim();
+    if (answer === '') {
+      quizFeedbackElem.textContent = 'กรุณาพิมพ์คำตอบก่อนนะ 😊';
+      quizFeedbackElem.style.color = '#ff6ab2';
+      return;
+    }
+    if (answer === quizQuestions[currentQuizIndex].a) {
+      quizFeedbackElem.textContent = 'เยี่ยม! คำตอบถูกต้อง 💖';
+      quizFeedbackElem.style.color = '#aaffaa';
+      createGlitter(quizSubmitBtn);
+      // สุ่มคำถามใหม่หลัง 2 วินาที
+      setTimeout(() => {
+        currentQuizIndex = Math.floor(Math.random() * quizQuestions.length);
+        loadQuizQuestion(currentQuizIndex);
+      }, 2000);
+    } else {
+      quizFeedbackElem.textContent = 'ยังไม่ถูกนะ ลองใหม่อีกครั้ง 😘';
+      quizFeedbackElem.style.color = '#ff7777';
+    }
+  });
+
+  document.getElementById('go-to-love-message').addEventListener('click', () => {
+    window.location.href = 'luv.html';
+  });
+
+  loadQuizQuestion(currentQuizIndex);
+</script>
+</body>
+</html>

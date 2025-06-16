@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ทำไมถึงต้องเลือกคนนี้มาเป็นแฟน</title>
+
+<!-- ฟอนต์จาก Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@300;600&family=Quicksand&display=swap" rel="stylesheet" />
+
+<style>
+  /* พื้นหลังไล่โทนดำชมพู พร้อมลายละเอียดกราฟิกนุ่มๆ */
+  body {
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #290029 0%, #0d000d 90%);
+    font-family: 'Poppins', sans-serif;
+    color: #f7c8db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    user-select: none;
+  }
+
+  /* กล่องฟอร์มกลางจอ */
+  .container {
+    background: linear-gradient(145deg, #3b003b, #580058);
+    border-radius: 30px;
+    padding: 40px 50px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow:
+      0 4px 15px rgba(255, 105, 180, 0.3),
+      inset 0 0 60px #ff4dbb,
+      inset 0 0 10px #ff66c4;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ลวดลายเส้นแสงวนเบา ๆ */
+  .container::before {
+    content: "";
+    position: absolute;
+    top: -150px; left: -150px;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, #ff66c4 0%, transparent 80%);
+    filter: blur(80px);
+    pointer-events: none;
+    animation: pulseGlow 5s infinite alternate ease-in-out;
+    z-index: 1;
+  }
+
+  @keyframes pulseGlow {
+    0% {opacity: 0.6;}
+    100% {opacity: 1;}
+  }
+
+  h1 {
+    font-family: 'Kaushan Script', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 35px;
+    color: #ff82b2;
+    text-shadow:
+      0 0 10px #ff82b2,
+      0 0 30px #ff3380;
+    z-index: 10;
+    position: relative;
+  }
+
+  textarea {
+    width: 100%;
+    height: 160px;
+    border-radius: 20px;
+    border: none;
+    padding: 18px 22px;
+    font-size: 1.2rem;
+    font-family: 'Quicksand', sans-serif;
+    background: #360036;
+    color: #ffc2de;
+    box-shadow:
+      inset 0 0 15px #ff3380,
+      0 3px 15px rgba(255, 51, 128, 0.5);
+    resize: vertical;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    z-index: 10;
+    position: relative;
+  }
+
+  textarea::placeholder {
+    color: #ffa1c1;
+    font-style: italic;
+  }
+
+  textarea:focus {
+    background: #480048;
+    box-shadow:
+      inset 0 0 20px #ff4dbb,
+      0 0 25px #ff66c4;
+    color: #fff0f5;
+  }
+
+  button {
+    margin-top: 28px;
+    width: 100%;
+    background: linear-gradient(135deg, #ff3399, #cc0066);
+    border-radius: 25px;
+    padding: 18px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow:
+      0 5px 20px #ff3399;
+    transition:
+      background 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.2s ease;
+    user-select: none;
+    z-index: 10;
+    position: relative;
+  }
+
+  button:hover {
+    background: linear-gradient(135deg, #cc0066, #ff3399);
+    box-shadow:
+      0 8px 28px #ff66c4;
+    transform: scale(1.05);
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  #status-message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    min-height: 30px;
+    color: #ff7bb5;
+    text-shadow: 0 0 5px #ff4dbb;
+    user-select: none;
+    z-index: 10;
+    position: relative;
+  }
+
+  /* ข้อความเด้งกลางจอ */
+  #floating-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #ff3399, #cc0066);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 30px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 8px 30px #ff66c4;
+    user-select: none;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  #floating-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .container {
+      padding: 30px 25px;
+    }
+    h1 {
+      font-size: 1.9rem;
+    }
+    button {
+      font-size: 1.2rem;
+      padding: 15px 0;
+    }
+    #floating-message {
+      font-size: 1.3rem;
+      padding: 15px 30px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>ทำไมถึงต้องเลือกคนนี้มาเป็นแฟน</h1>
+    <textarea id="love-message" placeholder="เขียนข้อความถึงเค้าที่นี่..."></textarea>
+    <button id="send-message" aria-label="ส่งข้อความรัก">ส่งข้อความ</button>
+    <div id="status-message" aria-live="polite"></div>
+  </div>
+
+  <!-- ข้อความเด้งกลางจอ -->
+  <div id="floating-message" aria-live="polite" role="alert"></div>
+
+<script>
+  const webhookUrl = "https://discord.com/api/webhooks/1384119407227437116/ID3sQyJoeYR6lyayS9UF8QCYMTvxVYNAmNX71LmKayYdk700E70dlLyk1peAYHfA9hqH";
+
+  function showFloatingMessage(text) {
+    const floating = document.getElementById('floating-message');
+    floating.textContent = text;
+    floating.classList.add('show');
+    // ซ่อนหลังจาก 2.5 วินาที
+    setTimeout(() => {
+      floating.classList.remove('show');
+    }, 9000);
+  }
+
+  document.getElementById('send-message').addEventListener('click', () => {
+    const message = document.getElementById('love-message').value.trim();
+    const status = document.getElementById('status-message');
+
+    if (!message) {
+      status.textContent = "อย่ามาเหลี่ยมเขียนมา";
+      status.style.color = "#ff99c8";
+      return;
+    }
+
+    const payload = { content: `ข้อความรักจากแฟน: ${message}` };
+
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(res => {
+      if (res.ok) {
+        showFloatingMessage("ขอบคุณครับเธอที่เขียนถึงเค้ารักเธอนะ");
+        status.textContent = ""; // ลบข้อความข้างล่างออก
+        document.getElementById('love-message').value = '';
+      } else {
+        throw new Error('ส่งข้อความล้มเหลว');
+      }
+    })
+    .catch(e => {
+      status.textContent = "เกิดข้อผิดพลาดในการส่งข้อความ ";
+      status.style.color = "#ff4d94";
+      console.error(e);
+    });
+  });
+</script>
+
+</body>
+</html>
