@@ -347,17 +347,29 @@
   function openPuzzle(card) {
     const puzzle = card.querySelector('.puzzle');
     const message = card.querySelector('.message');
-    if (puzzle.style.display === 'block') {
-      puzzle.style.display = 'none';
-      message.style.display = 'none';
-    } else {
-      puzzle.style.display = 'block';
-      message.style.display = 'none';
+    puzzle.style.display = 'block';
+    message.style.display = 'none';
+  }
 
-      const input = puzzle.querySelector('input');
-      const feedback = puzzle.querySelector('.feedback');
-      input.value = '';
-      feedback.textContent = '';
+  function checkAnswer(input, correctAnswer) {
+    const userAnswer = input.value.trim();
+    const feedback = input.nextElementSibling;
+
+    if (userAnswer === correctAnswer) {
+      feedback.textContent = " ถูกต้อง";
+      feedback.style.color = "green";
+
+      // แสดง message อีกครั้งเมื่อกดถูก
+      const card = input.closest('.card');
+      const puzzle = card.querySelector('.puzzle');
+      const message = card.querySelector('.message');
+      setTimeout(() => {
+        puzzle.style.display = 'none';
+        message.style.display = 'block';
+      }, 1000);
+    } else {
+      feedback.textContent = " ลองใหม่น้า";
+      feedback.style.color = "red";
     }
   }
 
@@ -370,7 +382,7 @@
       return;
     }
     if (userAnswer === correctAnswer) {
-      feedback.textContent = 'ถูกต้องแล้ว! 💖 เปิดข้อความความรักให้ดูนะ';
+      feedback.textContent = 'ถูกต้องแล้ว!  เปิดข้อความความรักให้ดูนะ';
       feedback.style.color = '#aaffaa';
 
       const card = inputElem.closest('.card');
@@ -437,7 +449,7 @@
     { q: "รักของเรามีค่าแค่ไหน?", a: "มากที่สุด" },
     { q: "สิ่งที่เค้าชอบที่สุดในตัวแฟนคืออะไร?", a: "ความใจดี" },
     { q: "คำพูดหวานๆ ที่เค้าชอบบอกแฟนคืออะไร?", a: "รักเธอเสมอ" },
-    { q: "แฟนชอบสีอะไร?", a: "ชมพู" },
+    { q: "แฟนชอบสีอะไร?", a: "ดำเทา" },
     { q: "ถ้าให้เลือกวันพิเศษ เค้าจะเลือกวันไหน?", a: "วันครบรอบ" }
   ];
 
